@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- NuGet package settings -->
+    <PackageId>Plugin.Maui.MauiDeviceToolkit</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Mohammed Sadiq</Authors>
+    <Company>Mohammed Sadiq</Company>
+    <Product>Plugin.Maui.MauiDeviceToolkit</Product>
+    <Description>Centralized helpers for permissions, device info, network checks, and sensors (Camera, GPS, Battery, Orientation and more) for .NET MAUI. Replaces multiple dependencies like Plugin.Permissions + Plugin.DeviceInfo + Essentials.</Description>
+    <PackageTags>maui;dotnet;plugin;permissions;deviceinfo;network;sensors;camera;gps;battery;orientation</PackageTags>
+    <PackageProjectUrl>https://github.com/mohammedmsadiq/Plugin.Maui.MauiDeviceToolkit</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mohammedmsadiq/Plugin.Maui.MauiDeviceToolkit</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.90" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.90" />
+  </ItemGroup>
+
+</Project>
