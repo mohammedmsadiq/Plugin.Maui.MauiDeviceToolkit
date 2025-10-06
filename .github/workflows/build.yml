@@ -1,0 +1,39 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build library
+      run: dotnet build src/Plugin.Maui.MauiDeviceToolkit/Plugin.Maui.MauiDeviceToolkit.csproj --configuration Release --no-restore
+      
+    # - name: Run tests
+    #   run: dotnet test tests/Plugin.Maui.MauiDeviceToolkit.Tests/Plugin.Maui.MauiDeviceToolkit.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      
+    # - name: Upload coverage reports
+    #   uses: codecov/codecov-action@v4
+    #   if: success()
+    #   with:
+        # token: ${{ secrets.CODECOV_TOKEN }}
+        # files: '**/coverage.cobertura.xml'
+        # fail_ci_if_error: false

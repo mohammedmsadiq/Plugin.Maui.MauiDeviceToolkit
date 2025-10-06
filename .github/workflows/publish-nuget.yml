@@ -1,0 +1,57 @@
+name: Publish NuGet Package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    name: Build and Publish NuGet Package
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Set version from tag
+      if: github.event_name == 'release'
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        
+    - name: Set version from input
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        
+    - name: Build library
+      run: dotnet build src/Plugin.Maui.MauiDeviceToolkit/Plugin.Maui.MauiDeviceToolkit.csproj --configuration Release -p:Version=${{ env.VERSION }}
+      
+    - name: Run tests
+      run: dotnet test tests/Plugin.Maui.MauiDeviceToolkit.Tests/Plugin.Maui.MauiDeviceToolkit.Tests.csproj --configuration Release --no-build
+      
+    - name: Pack NuGet package
+      run: dotnet pack src/Plugin.Maui.MauiDeviceToolkit/Plugin.Maui.MauiDeviceToolkit.csproj --configuration Release --no-build -p:PackageVersion=${{ env.VERSION }} --output ./artifacts
+      
+    - name: Publish to NuGet.org
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ./artifacts/*.nupkg
