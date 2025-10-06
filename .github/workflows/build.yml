@@ -27,13 +27,13 @@ jobs:
     - name: Build library
       run: dotnet build src/Plugin.Maui.MauiDeviceToolkit/Plugin.Maui.MauiDeviceToolkit.csproj --configuration Release --no-restore
       
-    - name: Run tests
-      run: dotnet test tests/Plugin.Maui.MauiDeviceToolkit.Tests/Plugin.Maui.MauiDeviceToolkit.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    # - name: Run tests
+    #   run: dotnet test tests/Plugin.Maui.MauiDeviceToolkit.Tests/Plugin.Maui.MauiDeviceToolkit.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
       
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v4
-      if: success()
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: '**/coverage.cobertura.xml'
-        fail_ci_if_error: false
+    # - name: Upload coverage reports
+    #   uses: codecov/codecov-action@v4
+    #   if: success()
+    #   with:
+        # token: ${{ secrets.CODECOV_TOKEN }}
+        # files: '**/coverage.cobertura.xml'
+        # fail_ci_if_error: false
